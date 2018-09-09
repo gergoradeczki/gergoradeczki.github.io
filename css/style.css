@@ -83,8 +83,10 @@ html, body {
     margin-left: 0px;
     padding: 10px;
     padding-left: 20px;
-    list-style-position: inside;
-    list-style-image: url('../img/android_icon.svg');
+    /*list-style-position: inside;
+    list-style-image: url('../img/android_icon.svg');*/
+    background-image: url('../img/android_icon.svg');
+	background-repeat: repeat-x;
 }
 #content>#list>li>ul>a>li {
     background-color: rgb(197, 197, 197);

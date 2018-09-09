@@ -63,32 +63,34 @@ html, body {
     text-decoration: none;
 }
 #content>#list>li>ul.website>a>li {
-    background-color: rgb(197, 197, 197);
     font-weight: normal;
     vertical-align: middle;
     line-height: 20px;
     font-size: 14px;
     margin-left: 0px;
     padding: 10px;
-    padding-left: 20px;
-    list-style-position: inside;
-    list-style-image: url('../img/web_icon.svg');
+    padding-left: 60px;
+    list-style: none;
+    background-color: rgb(197, 197, 197);
+    background-image: url('../img/web_icon.svg');
+    background-repeat: no-repeat;
+    background-position: 20px center;
 }
 #content>#list>li>ul.android>a>li {
-    background-color: rgb(197, 197, 197);
     font-weight: normal;
     vertical-align: middle;
     line-height: 20px;
     font-size: 14px;
     margin-left: 0px;
     padding: 10px;
-    padding-left: 20px;
-    /*list-style-position: inside;
-    list-style-image: url('../img/android_icon.svg');*/
+    padding-left: 60px;
+    list-style: none;
+    background-color: rgb(197, 197, 197);
     background-image: url('../img/android_icon.svg');
-	background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    background-position: 20px center;
 }
-#content>#list>li>ul>a>li {
+/*#content>#list>li>ul>a>li {
     background-color: rgb(197, 197, 197);
     font-weight: normal;
     vertical-align: middle;
@@ -97,7 +99,7 @@ html, body {
     margin-left: 0px;
     padding: 10px;
     padding-left: 20px;
-}
+}*/
 #content>#list>li>ul>a>li:hover {
     background-color: rgb(168, 168, 168);
     -webkit-transition: background-color 250ms linear;

@@ -86,7 +86,7 @@ html, body {
     /*list-style-position: inside;
     list-style-image: url('../img/android_icon.svg');*/
     background-image: url('../img/android_icon.svg');
-	background-repeat: repeat-x;
+	background-repeat: no-repeat;
 }
 #content>#list>li>ul>a>li {
     background-color: rgb(197, 197, 197);

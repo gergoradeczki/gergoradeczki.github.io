@@ -23,11 +23,11 @@ html, body {
     margin: 0px;
     margin-left: 20px;
 }
-/*#header img {
+#header img {
     width: 25px;
     height: 25px;
     float: right;
-}*/
+}
 #content {
     max-width: 600px;
     margin-left: auto;

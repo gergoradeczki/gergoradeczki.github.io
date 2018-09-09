@@ -1,0 +1,67 @@
+body, html {
+    background-color: rgb(34, 34, 34);
+    font-family: arial;
+    margin: 0px;
+    padding: 0px;
+}
+.content {
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(720px + 6px + 6px + 220px + 20px + 20px);
+}
+.canvas {
+    float: left;
+    border: 3px #CCC solid;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.titleBox {
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    width: 200px;
+    float: left;
+    border: 3px #CCC solid;
+    background-color: white;
+}
+.optionBox, .copyright {
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 200px;
+    float: left;
+    border: 3px #CCC solid;
+    background-color: white;
+    margin-top: 30px;
+    padding: 10px;
+}
+table tr {
+    text-align: right;
+}
+table tr td:nth-child(2) {
+    text-align: left;
+}
+button {
+    font-weight: bold;
+    height: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+button:hover {
+    cursor: pointer;
+}
+input[type="checkbox"] {
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    margin: 0px;
+}

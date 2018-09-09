@@ -1,0 +1,73 @@
+html, body {
+    padding: 0px;
+    margin: 0px;
+    font-family: sans-serif;
+}
+#header {
+    overflow:auto;
+    width: auto;
+    padding: 10px;
+    color: white;
+    background-color: #3f51b5;
+    -webkit-box-shadow: 0px 1px 28px 6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 28px 6px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 28px 6px rgba(0,0,0,0.75);
+    margin-bottom: 30px;
+}
+#header h1 {
+    line-height: 50px;
+    vertical-align: middle;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+}
+#header img {
+    width: 50px;
+    height: 50px;
+    float: right;
+}
+#content {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#content>#list>li {
+    background-color: rgb(220, 220, 220);
+    font-weight: bold;
+    font-size: 30px;
+}
+#content ul li ul {
+    padding-left: 0px;
+}
+#content>#list>li>ul>a>li {
+    background-color: rgb(197, 197, 197);
+    font-weight: normal;
+    font-size: 18px;
+    margin-left: 0px;
+    padding: 10px;
+    padding-left: 40px;
+}
+#content>#list>li>ul>a>li:hover {
+    background-color: rgb(168, 168, 168);
+    -webkit-transition: background-color 250ms linear;
+    -ms-transition: background-color 250ms linear;
+    transition: background-color 250ms linear;
+}
+#content ul, li {
+    list-style: none;
+    padding-top: 10px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+}
+#list {
+    margin: 10px;
+}
+#list>li>a {
+    padding: 10px;
+}
+#list li ul a {
+    color: blue;
+    text-decoration: none;
+}

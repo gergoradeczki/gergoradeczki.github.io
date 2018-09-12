@@ -1,7 +1,12 @@
 html, body {
     padding: 0px;
     margin: 0px;
+    height: 100%;
     font-family: sans-serif;
+}
+#container {
+    min-height: 100%;
+    position: relative;
 }
 #header {
     overflow:auto;
@@ -32,6 +37,7 @@ html, body {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 100px;
 }
 #content>#list {
     margin-top: 20px;
@@ -105,4 +111,23 @@ html, body {
     -webkit-transition: background-color 250ms linear;
     -ms-transition: background-color 250ms linear;
     transition: background-color 250ms linear;
+}
+#footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: auto;
+    background-color: #3f51b5;
+    color: white;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#footer>footer {
+    width: auto;
+    line-height: 25px;
+    font-size: 20px;
+    vertical-align: middle;
+    padding: 0px;
+    margin: 0px;
 }

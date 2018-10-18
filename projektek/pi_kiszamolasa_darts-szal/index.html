@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#15278b">
+        <link rel="icon" type="image/png" href="../img/favicon.png" />
+        <link rel="stylesheet" type="text/css" href="./style.css">
+        <script type="text/javascript" src="./script.js"></script>
+        <title>&#960; kiszámolása darts-szal</title>
+    </head>
+    <body onload="setCanvas()">
+        <div class="content">
+            <div class="container">
+                    <div class="board">
+                        <canvas id="myCanvas" class="canvas" width="400" height="400"></canvas>
+                    </div>
+                    <div class="controlPanel">
+                        <p>
+                            <button onclick="start()">START</button>
+                            <button onclick="stop()">STOP</button>        
+                        </p>
+                        <p id="pi_kozelito_ertek">&#960; közelítő értéke: NaN</p>
+                        <p id="hibaszazalek">Hibaszázalék: NaN%</p>
+                        <p id="talalatok">Találatok: 0</p>
+                        <p id="osszes_loves">Lövések száma: 0</p>
+                    </div>
+                </div>
+                <div class="container instructions">
+                    <p class="title">&#960; kiszámolása darts-szal</p>
+                    <p>1. Szerkesszünk egy R sugarú kört.</p>
+                    <p>2. Szerkesszünk a kör köré egy négyzetet, aminek az oldalainak a hossza pontosan 2R-nek kell lennie.</p>
+                    <p>3. Kezdjük el véletlenszerűen darts-szal dobálni a megszerkesztett "képet".</p>
+                    <p>4. Kellő mennyiségű darts eldobása után számoljuk meg, hogy mennyi talált bele a körbe (sikeres találatok).</p>
+                    <p>5. Szorozzuk meg 4-gyel a sikeres találatok számát, majd osszuk el az összes találat számával.</p>
+                    <p>6. Az így kapott szám a &#960;-nek egy közelítő értéke lesz.</p>
+                </div>
+                <div class="container">
+                    <img src="pi_kiszamitasa-darts.png" width="420" height="420">
+                </div>
+        </div>
+    </body>
+</html>

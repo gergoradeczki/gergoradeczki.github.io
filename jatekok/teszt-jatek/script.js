@@ -171,7 +171,6 @@ document.addEventListener("keydown", function(e) {
     if(startTime == 0) {
         startTime = Date.now();
     }
-    console.log(startTime);
 });
 
 document.addEventListener("keyup", function(e) {

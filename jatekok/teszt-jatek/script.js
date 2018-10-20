@@ -3,7 +3,9 @@ var requestId = 0;
 var width = 0;
 var height = 0;
 var point = [60,60];
-var speed = 10;
+var currentSpeed = 0;
+var maxSpeed = 10;
+var startTime = 0;
 var i = 0;
 var q = 0;
 var d = 0;
@@ -41,67 +43,72 @@ function draw() {
     ctx.fillStyle = "grey";
     ctx.fill();
 
+    currentSpeed = maxSpeed * (Date.now() - startTime)/400;
+    if(currentSpeed > maxSpeed) {
+        currentSpeed = maxSpeed;
+    }
+
     // Character Movement
     if((keys["w"] == true && keys["a"] == true && keys["s"] == true && keys["d"] == true) == false) {
         // W
         if( (keys["w"] == true && keys["a"] == false && keys["s"] == false && keys["d"] == false) == true || 
             (keys["w"] == true && keys["a"] == true && keys["s"] == false && keys["d"] == true) == true) {
-            if(point[1] - speed >= 0) {
-                point[1] -= speed;
+            if(point[1] - currentSpeed >= 0) {
+                point[1] -= currentSpeed;
             }
         } else if(keys["w"] == true && keys["a"] == true && keys["s"] == false && keys["d"] == false) {
-            if(point[1] - speed/Math.sqrt(2) >= 0) {
-                point[1] -= speed/Math.sqrt(2);
+            if(point[1] - currentSpeed/Math.sqrt(2) >= 0) {
+                point[1] -= currentSpeed/Math.sqrt(2);
             }
-            if(point[0] - speed/Math.sqrt(2) >= 0) {
-                point[0] -= speed/Math.sqrt(2);
+            if(point[0] - currentSpeed/Math.sqrt(2) >= 0) {
+                point[0] -= currentSpeed/Math.sqrt(2);
             }
             player.src = "img/character-sprite-mirrored.png";
         } else if(keys["w"] == true && keys["a"] == false && keys["s"] == false && keys["d"] == true) {
-            if(point[1] - speed/Math.sqrt(2) >= 0) {
-                point[1] -= speed/Math.sqrt(2);
+            if(point[1] - currentSpeed/Math.sqrt(2) >= 0) {
+                point[1] -= currentSpeed/Math.sqrt(2);
             }
-            if(point[0] + (speed)/Math.sqrt(2) + 60 <= width) {
-                point[0] += speed/Math.sqrt(2);
+            if(point[0] + currentSpeed/Math.sqrt(2) + 60 <= width) {
+                point[0] += currentSpeed/Math.sqrt(2);
             }
             player.src = "img/character-sprite.png";
         }
         // S
         if( (keys["w"] == false && keys["a"] == false && keys["s"] == true && keys["d"] == false) == true || 
             (keys["w"] == false && keys["a"] == true && keys["s"] == true && keys["d"] == true) == true) {
-            if(point[1] + speed + 60 <= height) {
-                point[1] += speed;
+            if(point[1] + currentSpeed + 60 <= height) {
+                point[1] += currentSpeed;
             }
         } else if(keys["w"] == false && keys["a"] == true && keys["s"] == true && keys["d"] == false) {
-            if(point[1] + (speed)/Math.sqrt(2) + 60 <= height) {
-                point[1] += speed/Math.sqrt(2);
+            if(point[1] + currentSpeed/Math.sqrt(2) + 60 <= height) {
+                point[1] += currentSpeed/Math.sqrt(2);
             }
-            if(point[0] - speed/Math.sqrt(2) >= 0) {
-                point[0] -= speed/Math.sqrt(2);
+            if(point[0] - currentSpeed/Math.sqrt(2) >= 0) {
+                point[0] -= currentSpeed/Math.sqrt(2);
             }
             player.src = "img/character-sprite-mirrored.png";
         } else if(keys["w"] == false && keys["a"] == false && keys["s"] == true && keys["d"] == true) {
-            if(point[1] +  speed/Math.sqrt(2) + 60 <= height) {
-                point[1] += speed/Math.sqrt(2);
+            if(point[1] +  currentSpeed/Math.sqrt(2) + 60 <= height) {
+                point[1] += currentSpeed/Math.sqrt(2);
             }
-            if(point[0] +  speed/Math.sqrt(2) + 60 <= width) {
-                point[0] += speed/Math.sqrt(2);
+            if(point[0] +  currentSpeed/Math.sqrt(2) + 60 <= width) {
+                point[0] += currentSpeed/Math.sqrt(2);
             }
             player.src = "img/character-sprite.png";
         }
         // A
         if( (keys["w"] == false && keys["a"] == true && keys["s"] == false && keys["d"] == false) == true || 
             (keys["w"] == true && keys["a"] == true && keys["s"] == true && keys["d"] == false) == true) {
-            if(point[0] - speed >= 0) {
-                point[0] -= speed;
+            if(point[0] - currentSpeed >= 0) {
+                point[0] -= currentSpeed;
             }
             player.src = "img/character-sprite-mirrored.png";
         }
         // D
         if( (keys["w"] == false && keys["a"] == false && keys["s"] == false && keys["d"] == true) == true || 
             (keys["w"] == true && keys["a"] == false && keys["s"] == true && keys["d"] == true) == true) {
-            if(point[0] + speed + 60 <= width) {
-                point[0] += speed;
+            if(point[0] + currentSpeed + 60 <= width) {
+                point[0] += currentSpeed;
             }
             player.src = "img/character-sprite.png";
         }
@@ -160,6 +167,10 @@ document.addEventListener("keydown", function(e) {
     if(e.key == "w" || e.key == "ArrowUp") {
         keys["w"] = true;
     }
+    if(startTime == 0) {
+        startTime = Date.now();
+    }
+    console.log(startTime);
 });
 
 document.addEventListener("keyup", function(e) {
@@ -174,6 +185,9 @@ document.addEventListener("keyup", function(e) {
     }
     if(e.key == "w" || e.key == "ArrowUp") {
         keys["w"] = false;
+    }
+    if(keys["w"] == false && keys["a"] == false && keys["s"] == false && keys["d"] == false) {
+        startTime = 0;
     }
 });
 

@@ -21,6 +21,7 @@ var img = new Image();
 img.src = "img/coin-sprite.png";
 
 var player = new Image();
+player.src = "img/character-sprite-mirrored.png";
 player.src = "img/character-sprite.png";
 
 function startup() {
@@ -43,7 +44,7 @@ function draw() {
     ctx.fillStyle = "grey";
     ctx.fill();
 
-    currentSpeed = maxSpeed * (Date.now() - startTime)/400;
+    currentSpeed = maxSpeed * (Date.now() - startTime)/350;
     if(currentSpeed > maxSpeed) {
         currentSpeed = maxSpeed;
     }

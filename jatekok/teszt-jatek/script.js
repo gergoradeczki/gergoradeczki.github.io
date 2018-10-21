@@ -1,17 +1,22 @@
 var canvas, ctx, pattern;
-var requestId = 0;
 var width = 0;
 var height = 0;
-var playerSize = [60,60];
+// 0-Bottom
+// 1-Left
+// 2-Right
+// 3-Top
+var direction = 0;
+var playerSize = [70,70];
+var playerRadius = playerSize[0]/2;
 var playerPos = [60,60];
 var coinSize = [50,50];
+var coinRadius = coinSize[0]/2;
+var coins = [];
+var coinsPos = [];
 // A negatívak a játékos kiterjedése miatt kellenek,
 // A pozitívak az érmék kiterjedése miatt
 //                 [-X,X,-Y,Y]
-var coinHitbox = [-40,35,-55,40];
-var coins = [];
-var maxCoinNumber = 30;
-var coinsPos = [];
+//var coinHitbox = [-40,35,-55,40];
 var currentSpeed = 0;
 var maxSpeed = 10;
 
@@ -34,14 +39,15 @@ var keys = {
 
 var coinPickupEffect = new Audio("sound-effect/coin-pickup.wav");
 coinPickupEffect.volume = 0.25;
+var happySound = new Audio("sound-effect/hi_yeah_happy.mp3");
+happySound.volume = 0.2;
 
 var coin = new Image();
 coin.src = "img/coin-sprite.png";
 var background = new Image();
 background.src = "img/background-grass.png";
 var player = new Image();
-player.src = "img/character-sprite-mirrored.png";
-player.src = "img/character-sprite.png";
+player.src = "img/enemy-movement-sprite.png";
 
 function startup() {
     var idle = new Audio("sound-effect/Our-Mountain_v003_Looping.mp3");
@@ -51,17 +57,7 @@ function startup() {
     width = window.innerWidth;
     height = window.innerHeight;
 
-    var coinNumber = Math.floor((Math.random() * maxCoinNumber) + 1);
-
-    for(i=0; i<coinNumber; i++) {
-        coins.push(1);
-
-        coinsPos.push(Math.floor((Math.random() * (width-50))));
-        coinsPos.push(Math.floor((Math.random() * (height-50))));
-    }
-    i = 0;
-    console.log(coins);
-    console.log(coinsPos);
+    generateCoins(1, 10, width, height);
 
     // -1 mert igy nem lesz görgetősáv megjelenítve
 
@@ -71,15 +67,12 @@ function startup() {
     ctx = canvas.getContext("2d");
     pattern = ctx.createPattern(background, 'repeat');
 
-    requestId = requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
 }
 
 function draw() {
 
-    ctx.beginPath()
-    ctx.rect(0,0,width,height);
-    ctx.fillStyle = pattern;
-    ctx.fill();
+    drawBackground();
 
     currentSpeed = maxSpeed * (Date.now() - startTime)/350;
     if(currentSpeed > maxSpeed) {
@@ -94,6 +87,7 @@ function draw() {
             if(playerPos[1] - currentSpeed >= 0) {
                 playerPos[1] -= currentSpeed;
             }
+            direction = 3;
         } else if(keys["w"] == true && keys["a"] == true && keys["s"] == false && keys["d"] == false) {
             if(playerPos[1] - currentSpeed/Math.sqrt(2) >= 0) {
                 playerPos[1] -= currentSpeed/Math.sqrt(2);
@@ -101,7 +95,7 @@ function draw() {
             if(playerPos[0] - currentSpeed/Math.sqrt(2) >= 0) {
                 playerPos[0] -= currentSpeed/Math.sqrt(2);
             }
-            player.src = "img/character-sprite-mirrored.png";
+            direction = 3;
         } else if(keys["w"] == true && keys["a"] == false && keys["s"] == false && keys["d"] == true) {
             if(playerPos[1] - currentSpeed/Math.sqrt(2) >= 0) {
                 playerPos[1] -= currentSpeed/Math.sqrt(2);
@@ -109,7 +103,7 @@ function draw() {
             if(playerPos[0] + currentSpeed/Math.sqrt(2) + 60 <= width) {
                 playerPos[0] += currentSpeed/Math.sqrt(2);
             }
-            player.src = "img/character-sprite.png";
+            direction = 3;
         }
         // S
         if( (keys["w"] == false && keys["a"] == false && keys["s"] == true && keys["d"] == false) == true || 
@@ -117,6 +111,7 @@ function draw() {
             if(playerPos[1] + currentSpeed + 60 <= height) {
                 playerPos[1] += currentSpeed;
             }
+            direction = 0;
         } else if(keys["w"] == false && keys["a"] == true && keys["s"] == true && keys["d"] == false) {
             if(playerPos[1] + currentSpeed/Math.sqrt(2) + 60 <= height) {
                 playerPos[1] += currentSpeed/Math.sqrt(2);
@@ -124,7 +119,7 @@ function draw() {
             if(playerPos[0] - currentSpeed/Math.sqrt(2) >= 0) {
                 playerPos[0] -= currentSpeed/Math.sqrt(2);
             }
-            player.src = "img/character-sprite-mirrored.png";
+            direction = 0;
         } else if(keys["w"] == false && keys["a"] == false && keys["s"] == true && keys["d"] == true) {
             if(playerPos[1] +  currentSpeed/Math.sqrt(2) + 60 <= height) {
                 playerPos[1] += currentSpeed/Math.sqrt(2);
@@ -132,7 +127,7 @@ function draw() {
             if(playerPos[0] +  currentSpeed/Math.sqrt(2) + 60 <= width) {
                 playerPos[0] += currentSpeed/Math.sqrt(2);
             }
-            player.src = "img/character-sprite.png";
+            direction = 0;
         }
         // A
         if( (keys["w"] == false && keys["a"] == true && keys["s"] == false && keys["d"] == false) == true || 
@@ -140,7 +135,7 @@ function draw() {
             if(playerPos[0] - currentSpeed >= 0) {
                 playerPos[0] -= currentSpeed;
             }
-            player.src = "img/character-sprite-mirrored.png";
+            direction = 1;
         }
         // D
         if( (keys["w"] == false && keys["a"] == false && keys["s"] == false && keys["d"] == true) == true || 
@@ -148,7 +143,7 @@ function draw() {
             if(playerPos[0] + currentSpeed + 60 <= width) {
                 playerPos[0] += currentSpeed;
             }
-            player.src = "img/character-sprite.png";
+            direction = 2;
         }
     }
 
@@ -161,7 +156,7 @@ function draw() {
             i++;
             d = 0;
         }
-        if(q == 5) {
+        if(q == 3) {
             q = 0;
         } else {
             q++;
@@ -174,10 +169,8 @@ function draw() {
 
     // Ez jeleníti meg / tűnteti el az érméket.
     for(r = 0; r < coins.length; r++) {
-        if(coinsPos[r*2]+coinHitbox[0] < playerPos[0] && playerPos[0] <= coinsPos[r*2]+coinHitbox[1]
-        && coinsPos[r*2+1]+coinHitbox[2] < playerPos[1] && playerPos[1] <= coinsPos[r*2+1]+coinHitbox[3]
-        && coins[r] == 1) {
-            //console.log(r + ". érmét megérintetted!");
+        if((coinsPos[r*2]-playerPos[0])*(coinsPos[r*2]-playerPos[0]) + (coinsPos[r*2+1]-playerPos[1])*(coinsPos[r*2+1]-playerPos[1])
+        <= (playerRadius+coinRadius)*(playerRadius+coinRadius) && coins[r] == 1) {
             coinPickupEffect.pause();
             coinPickupEffect.currentTime = 0;
             coinPickupEffect.play();
@@ -186,6 +179,11 @@ function draw() {
             coinsPos.splice(r*2,2);
             score++;
             document.getElementById("scoreboard").innerHTML = score + " Pont";
+            if(coins.length == 0) {
+                happySound.play();
+
+                setTimeout(function(){generateCoins(1, 10, width, height)}, 2000);
+            }
         }
         if(coins[r] == 1) {
             ctx.drawImage(coin, 100*i,0, 100,100, coinsPos[r*2],coinsPos[r*2+1], coinSize[0],coinSize[1]);
@@ -194,16 +192,39 @@ function draw() {
 
     // A játékos megrajzolása
     if(keys["w"] == true || keys["a"] == true || keys["s"] == true || keys["d"] == true) {
-        ctx.drawImage(player, 256*q,0, 256,218, playerPos[0],playerPos[1], playerSize[0],playerSize[1]);
+        ctx.drawImage(player, 54*q,54*direction, 54,54, playerPos[0],playerPos[1], playerSize[0],playerSize[1]);
     } else {
-        ctx.drawImage(player, 256*1,0, 256,218, playerPos[0],playerPos[1], playerSize[0],playerSize[1]);
+        ctx.drawImage(player, 54*0,54*direction, 54,54, playerPos[0],playerPos[1], playerSize[0],playerSize[1]);
     }
 
     d++;
 
-    requestId = requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
 }
 
+function drawBackground() {
+    ctx.beginPath()
+    ctx.rect(0,0,width,height);
+    ctx.fillStyle = pattern;
+    ctx.fill();
+    ctx.closePath();
+}
+
+function generateCoins(minCoins, maxCoins, windoWidth, windoHeight) {
+    console.log("generateCoins(" + minCoins + ", " + maxCoins + ", " + width + ", " + height + ")");
+    coinNumber = Math.floor((Math.random() * maxCoins) + minCoins);
+
+    for(i=0; i<coinNumber; i++) {
+        coins.push(1);
+
+        coinsPos.push(Math.floor((Math.random() * (windoWidth-50))));
+        coinsPos.push(Math.floor((Math.random() * (windoHeight-50))));
+    }
+    i = 0;
+    console.log("Érmék elhelyezése...");
+    console.log(coins);
+    console.log(coinsPos);
+}
 
 // Gomblenyomás figyelése
 document.addEventListener("keydown", function(e) {

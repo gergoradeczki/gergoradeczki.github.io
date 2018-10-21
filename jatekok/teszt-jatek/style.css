@@ -3,8 +3,12 @@
     margin: 0px;
     overflow: hidden;
 }
+body {
+    background-color: black;
+}
 #game {
-    z-index: 1
+    z-index: 1;
+    position: absolute;
 }
 #scoreboard {
     -webkit-user-select: none; /* Safari */
@@ -24,7 +28,8 @@
     color: white;
     font-weight: bold;
     background-color: gray;
+    padding: 10px;
     opacity: 0.6;
-    width: 250px;
+    min-width: 250px;
     height: 60px;
 }

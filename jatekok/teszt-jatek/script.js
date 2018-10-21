@@ -1,7 +1,13 @@
+/*
+Unscaled (u) resolution means the resolution on a Full HD (1920x1080) monitor
+Without anything else rendered but the game
+*/
 var canvas, ctx, pattern;
 var width = 1920;
 var height = 1080;
-var ratio = 0;
+var uWidth = 1920;
+var uHeight = 1080;
+var ratio = 1;
 // 0-Bottom
 // 1-Left
 // 2-Right
@@ -14,9 +20,17 @@ var player = {
     width: 70,
     height: 70,
     radius: 35,
-    direction: 0,
     speed: 0,
-    maxSpeed: 7,
+
+    uX: 60,
+    uY: 60,
+    uWidth: 70,
+    uHeight: 70,
+    uRadius: 35,
+    uSpeed: 0,
+
+    maxSpeed: 10,
+    direction: 0,
     img: character
 }
 
@@ -26,6 +40,9 @@ var coin = {
     width: 50,
     height: 50,
     radius: 25,
+    uWidth: 50,
+    uHeight: 50,
+    uRadius: 25,
     img: goldenCoin
 }
 var coins = [];
@@ -68,8 +85,8 @@ function startup() {
     canvas = document.getElementById("game");
     canvas.focus();
 
+    generateCoins(1, 10, uWidth, uHeight);
     setCanvasSize();
-    generateCoins(1, 10, width, height);
     
     ctx = canvas.getContext("2d");
     pattern = ctx.createPattern(background, 'repeat');
@@ -81,9 +98,11 @@ function draw() {
 
     drawBackground();
 
-    player.speed = player.maxSpeed * (Date.now() - startTime)/350;
-    if(player.speed > player.maxSpeed) {
-        player.speed = player.maxSpeed;
+    player.uSpeed = player.maxSpeed * (Date.now() - startTime)/350;
+    player.speed = player.uSpeed * ratio;
+    if(player.uSpeed > player.maxSpeed) {
+        player.uSpeed = player.maxSpeed;
+        player.speed = player.maxSpeed * ratio;
     }
 
     // Character Movement
@@ -93,46 +112,56 @@ function draw() {
             (keys["w"] == true && keys["a"] == true && keys["s"] == false && keys["d"] == true) == true) {
             if(player.y - player.speed >= 0) {
                 player.y -= player.speed;
+                player.uY -= player.uSpeed;
             }
             player.direction = 3;
         } else if(keys["w"] == true && keys["a"] == true && keys["s"] == false && keys["d"] == false) {
             if(player.y - player.speed/Math.sqrt(2) >= 0) {
                 player.y -= player.speed/Math.sqrt(2);
+                player.uY -= player.uSpeed/Math.sqrt(2);
             }
             if(player.x - player.speed/Math.sqrt(2) >= 0) {
                 player.x -= player.speed/Math.sqrt(2);
+                player.uX -= player.uSpeed/Math.sqrt(2);
             }
             player.direction = 3;
         } else if(keys["w"] == true && keys["a"] == false && keys["s"] == false && keys["d"] == true) {
             if(player.y - player.speed/Math.sqrt(2) >= 0) {
                 player.y -= player.speed/Math.sqrt(2);
+                player.uY -= player.uSpeed/Math.sqrt(2);
             }
-            if(player.x + player.speed/Math.sqrt(2) + 60 <= width) {
+            if(player.x + player.speed/Math.sqrt(2) + player.width <= width) {
                 player.x += player.speed/Math.sqrt(2);
+                player.uX += player.uSpeed/Math.sqrt(2);
             }
             player.direction = 3;
         }
         // S
         if( (keys["w"] == false && keys["a"] == false && keys["s"] == true && keys["d"] == false) == true || 
             (keys["w"] == false && keys["a"] == true && keys["s"] == true && keys["d"] == true) == true) {
-            if(player.y + player.speed + 60 <= height) {
+            if(player.y + player.speed + player.height <= height) {
                 player.y += player.speed;
+                player.uY += player.uSpeed;
             }
             player.direction = 0;
         } else if(keys["w"] == false && keys["a"] == true && keys["s"] == true && keys["d"] == false) {
-            if(player.y + player.speed/Math.sqrt(2) + 60 <= height) {
+            if(player.y + player.speed/Math.sqrt(2) + player.height <= height) {
                 player.y += player.speed/Math.sqrt(2);
+                player.uY += player.uSpeed/Math.sqrt(2);
             }
             if(player.x - player.speed/Math.sqrt(2) >= 0) {
                 player.x -= player.speed/Math.sqrt(2);
+                player.uX -= player.uSpeed/Math.sqrt(2);
             }
             player.direction = 0;
         } else if(keys["w"] == false && keys["a"] == false && keys["s"] == true && keys["d"] == true) {
-            if(player.y +  player.speed/Math.sqrt(2) + 60 <= height) {
+            if(player.y +  player.speed/Math.sqrt(2) + player.height <= height) {
                 player.y += player.speed/Math.sqrt(2);
+                player.uY += player.uSpeed/Math.sqrt(2);
             }
-            if(player.x +  player.speed/Math.sqrt(2) + 60 <= width) {
+            if(player.x +  player.speed/Math.sqrt(2) + player.width <= width) {
                 player.x += player.speed/Math.sqrt(2);
+                player.uX += player.uSpeed/Math.sqrt(2);
             }
             player.direction = 0;
         }
@@ -141,14 +170,16 @@ function draw() {
             (keys["w"] == true && keys["a"] == true && keys["s"] == true && keys["d"] == false) == true) {
             if(player.x - player.speed >= 0) {
                 player.x -= player.speed;
+                player.uX -= player.uSpeed;
             }
             player.direction = 1;
         }
         // D
         if( (keys["w"] == false && keys["a"] == false && keys["s"] == false && keys["d"] == true) == true || 
             (keys["w"] == true && keys["a"] == false && keys["s"] == true && keys["d"] == true) == true) {
-            if(player.x + player.speed + 60 <= width) {
+            if(player.x + player.speed + player.width <= width) {
                 player.x += player.speed;
+                player.uX += player.uSpeed;
             }
             player.direction = 2;
         }
@@ -199,6 +230,7 @@ function draw() {
     }
 
     // A játékos megrajzolása
+    // Úgy is működne, hogy megnézem, van-e sebessége a játékosnak, ha van akkor mozog
     if(keys["w"] == true || keys["a"] == true || keys["s"] == true || keys["d"] == true) {
         ctx.drawImage(player.img, 54*q,54*player.direction, 54,54, player.x,player.y, player.width,player.height);
     } else {
@@ -224,13 +256,59 @@ function generateCoins(minCoins, maxCoins, windoWidth, windoHeight) {
 
     for(i=0; i<coinNumber; i++) {
         coins.push({
-            x: Math.floor((Math.random() * (windoWidth-50))),
-            y: Math.floor((Math.random() * (windoHeight-50)))
+            x: 0,
+            y: 0,
+            uX: Math.floor((Math.random() * (uWidth-coin.uWidth))),
+            uY: Math.floor((Math.random() * (uHeight-coin.uHeight)))
         });
+        coins[i].x = coins[i].uX * ratio;
+        coins[i].y = coins[i].uY * ratio;
     }
     i = 0;
     console.log("Érmék elhelyezése...");
     console.log(coins);
+}
+
+// A kép újraméretezése
+function setCanvasSize() {
+
+    if(window.innerWidth/1920 >= window.innerHeight/1080) {
+        width = window.innerHeight*(16/9);
+        height = window.innerHeight;
+    } else if(window.innerWidth/1920 < window.innerHeight/1080) {
+        width = window.innerWidth;
+        height = window.innerWidth*(9/16);
+    }
+    ratio = width / 1920;
+
+    player.x = player.uX * ratio;
+    player.y = player.uY * ratio;
+    player.width = player.uWidth * ratio;
+    player.height = player.uHeight * ratio;
+    player.radius = player.uRadius * ratio;
+
+    coin.width = coin.uWidth * ratio;
+    coin.height = coin.uHeight * ratio;
+    coin.radius = coin.uRadius * ratio;
+
+    for(i=0; i<coins.length; i++) {
+        coins[i].x = coins[i].uX * ratio;
+        coins[i].y = coins[i].uY * ratio;
+    }
+    i=0;
+    
+
+    //console.log(ratio);
+
+    document.getElementById("game").style.top = (window.innerHeight - height)/2 + "px";
+    document.getElementById("game").style.left = (window.innerWidth - width)/2 + "px";
+    document.getElementById("scoreboard").style.top = ((window.innerHeight - height)/2 + 10) + "px";
+    document.getElementById("scoreboard").style.right = ((window.innerWidth - width)/2 + 10) + "px";
+    canvas.width = width;
+    canvas.height = height;
+    /*console.log("W: " + width + " H: " + height);
+    console.log("W%: " + window.innerWidth/1920);
+    console.log("H%: " + window.innerHeight/1080);*/
 }
 
 // Gomblenyomás figyelése
@@ -270,26 +348,3 @@ document.addEventListener("keyup", function(e) {
         startTime = 0;
     }
 });
-
-// A kép újraméretezése
-function setCanvasSize() {
-    //console.log(window.innerWidth/1920);
-
-    if(window.innerWidth/1920 >= window.innerHeight/1080) {
-        width = window.innerHeight*(16/9);
-        height = window.innerHeight;
-    } else if(window.innerWidth/1920 < window.innerHeight/1080) {
-        width = window.innerWidth;
-        height = window.innerWidth*(9/16);
-    }
-
-    document.getElementById("game").style.top = (window.innerHeight - height)/2 + "px";
-    document.getElementById("game").style.left = (window.innerWidth - width)/2 + "px";
-    document.getElementById("scoreboard").style.top = ((window.innerHeight - height)/2 + 10) + "px";
-    document.getElementById("scoreboard").style.right = ((window.innerWidth - width)/2 + 10) + "px";
-    canvas.width = width;
-    canvas.height = height;
-    console.log("W: " + width + " H: " + height);
-    console.log("W%: " + window.innerWidth/1920);
-    console.log("H%: " + window.innerHeight/1080);
-}

@@ -59,6 +59,8 @@ var q = 0;
 var d = 0;
 
 var startTime = 0;
+var time = 0;
+var deltaTime = 0;
 var score = 0;
 
 var keys = {
@@ -95,6 +97,7 @@ function startup() {
 }
 
 function draw() {
+    deltaTime = (Date.now() - time)/1000;
 
     drawBackground();
 
@@ -238,6 +241,10 @@ function draw() {
     }
 
     d++;
+
+    time = Date.now();
+
+    document.getElementById("fps").innerHTML = "FPS: " + Math.trunc(1/deltaTime);
 
     requestAnimationFrame(draw);
 }

@@ -51,18 +51,19 @@ html, body {
 }
 #content ul, #content li {
     list-style: none;
-    padding-top: 10px;
+    padding-top: 0px;
     padding-left: 0px;
     padding-bottom: 0px;
     padding-right: 0px;
+}
+#content>#list>li>a {
+    padding: 10px;
+    line-height: 40px;
 }
 #content>#list>li {
     background-color: rgb(220, 220, 220);
     font-weight: bold;
     font-size: 20px;
-}
-#content>#list>li>a {
-    padding: 10px;
 }
 #content>#list>li>ul>a {
     color: blue;
@@ -93,6 +94,20 @@ html, body {
     list-style: none;
     background-color: rgb(197, 197, 197);
     background-image: url('../img/android_icon.svg');
+    background-repeat: no-repeat;
+    background-position: 20px center;
+}
+#content>#list>li>ul.windows>a>li {
+    font-weight: normal;
+    vertical-align: middle;
+    line-height: 20px;
+    font-size: 14px;
+    margin-left: 0px;
+    padding: 10px;
+    padding-left: 60px;
+    list-style: none;
+    background-color: rgb(197, 197, 197);
+    background-image: url('../img/windows_icon.svg');
     background-repeat: no-repeat;
     background-position: 20px center;
 }

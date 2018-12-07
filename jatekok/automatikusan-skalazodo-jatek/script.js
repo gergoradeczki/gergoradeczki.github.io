@@ -57,6 +57,7 @@ var i = 0;
 var q = 0;
 // Lassítja a képváltoztatást
 var d = 0;
+var f = 0;
 
 var startTime = 0;
 var time = 0;
@@ -83,6 +84,8 @@ function startup() {
     idle.volume = 0.1;
     idle.loop = true;
     idle.play();
+    
+    time = Date.now();
 
     canvas = document.getElementById("game");
     canvas.focus();
@@ -97,7 +100,7 @@ function startup() {
 }
 
 function draw() {
-    deltaTime = (Date.now() - time)/1000;
+    deltaTime = Date.now() - time;
 
     drawBackground();
 
@@ -242,9 +245,11 @@ function draw() {
 
     d++;
 
-    time = Date.now();
 
-    document.getElementById("fps").innerHTML = "FPS: " + Math.trunc(1/deltaTime);
+    if(deltaTime >= 1000) {
+        document.getElementById("fps").innerHTML = "FPS: " + Math.trunc(1/(deltaTime/1000));
+        time = Date.now();
+    }
 
     requestAnimationFrame(draw);
 }

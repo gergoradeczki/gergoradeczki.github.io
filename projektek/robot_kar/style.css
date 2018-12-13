@@ -1,0 +1,10 @@
+body, html {
+    background-color: rgb(34, 34, 34);
+    font-family: arial;
+    margin: 0px;
+    padding: 0px;
+}
+.canvas {
+	width: 720px;
+	height: 720px;
+}

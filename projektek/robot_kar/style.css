@@ -1,10 +1,35 @@
-body, html {
-    background-color: rgb(34, 34, 34);
-    font-family: arial;
+* {
     margin: 0px;
     padding: 0px;
 }
+body, html {
+    background-color: rgb(34, 34, 34);
+    font-family: arial;
+}
 .canvas {
+    display: block;
+    float: left;
+    margin: 10px;
 	width: 720px;
 	height: 720px;
+}
+.settings {
+    width: 200px;
+    opacity: 80%;
+    background-color: white;
+    border-color: gray;
+    border-radius: 4px;
+    display: block;
+    float: left;
+    margin: 10px;
+    padding: 5px;
+}
+.settings table input {
+    margin: 6px;
+}
+.settings .button {
+    margin: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    width: calc(200px - 2*5px);
 }

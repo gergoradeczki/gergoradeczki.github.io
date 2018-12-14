@@ -10,7 +10,25 @@
     <body onload="setCanvas(), animation()">
         <div class="content">
             <canvas id="canvas" class="canvas" width="720" height="720"></canvas>
-            
+            <div class="settings">
+                <p>Robot Kar</p>
+                <table>
+                    <tr>
+                        <td>
+                            <p>X:</p>
+                        </td>
+                        <td><input type="text" name="xCoordinate" id="xCor"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <p>Y:</p>
+                        </td>
+                        <td><input type="text" name="yCoordinate" id="yCor"></td>
+                    </tr>
+                </table>
+                <button id="submit" class="button" onclick="setDestination()">Cél beállítása</button>
+            </div>
             <!--<div id="copyright">
                 Készítette: Radeczki Gergő
             </div>-->

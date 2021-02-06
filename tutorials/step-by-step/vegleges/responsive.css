@@ -1,0 +1,7 @@
+@media only screen and (max-width: 959px) {
+    main {
+        border-radius: 0;
+        border: none;
+        margin: 20px 0 20px 0;
+    }
+}

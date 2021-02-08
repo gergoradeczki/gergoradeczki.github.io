@@ -1,20 +1,16 @@
-// When the user scrolls the page, execute myFunction
-window.onscroll = function() {myFunction()};
+window.onscroll = function() { changeHeader() };
 
-// Get the header
 var header = document.querySelector("header");
 var main = document.querySelector("main");
 
-// Get the offset position of the navbar
 var sticky = header.offsetTop;
 
-// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
-    main.style.marginTop = "70px";
-  } else {
-    header.classList.remove("sticky");
-    main.style.marginTop = "20px";
-  }
+function changeHeader() {
+    if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+        main.style.marginTop = "70px";
+    } else {
+        header.classList.remove("sticky");
+        main.style.marginTop = "20px";
+    }
 }

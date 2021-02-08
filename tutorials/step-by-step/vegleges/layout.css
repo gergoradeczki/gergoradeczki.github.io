@@ -25,13 +25,9 @@ main {
 }
 footer {
     padding: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 }
-
 .sticky {
     position: fixed;
     top: 0;
-    width: 100%
+    width: 100%;
 }

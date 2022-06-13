@@ -1,0 +1,8 @@
+node_modules
+.github
+test
+.vscode
+old
+.cache
+public
+src/gatsby-types.d.ts
